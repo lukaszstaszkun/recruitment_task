@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         composer update
-        composer install --prefer-dist --no-progress
+        #composer install --prefer-dist --no-progress
 
     - name: test composer
       run: composer test
