@@ -16,10 +16,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    #- name: Install dependencies
+    #  run: |
+    #    composer update
+    #    composer install --prefer-dist --no-progress
+
+    - name: checking directory
       run: |
-        composer update
-        #composer install --prefer-dist --no-progress
+        pwd
+        ls -la
 
     - name: test composer
       run: composer test
