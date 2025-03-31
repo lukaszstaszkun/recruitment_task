@@ -18,7 +18,13 @@ jobs:
 
     - name: Install dependencies
       run: |
+        echo ===== Checking version of composer =====
+        composer --version
+        echo ===== Installing dependencies =====
+        composer require baldinof/roadrunner-bundle
+        echo ===== composer update =====
         composer update
+        echo ===== composer install =====
         composer install --prefer-dist --no-progress
 
     - name: checking directory
