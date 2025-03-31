@@ -18,10 +18,7 @@ jobs:
 
     - name: workaround for baldinof
       run: |
-        mv config/packages/baldinof_road_runner.yaml config/packages/baldinof_road_runner.yaml.bak
-        composer require baldinof/roadrunner-bundle
-        mv config/packages/baldinof_road_runner.yaml.bak config/packages/baldinof_road_runner.yaml
-        php bin/console cache:clear
+        composer show | grep baldinof
 
     - name: Install dependencies
       run: |
