@@ -21,17 +21,16 @@ jobs:
         composer update
         composer install --prefer-dist --no-progress
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+    - name: test composer
+      run: composer test
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+    - name: static code analysis
+      run: composer stan
+
+    - name: formatting
+      run: |
+        composer cs
+        composer cs-fix
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
