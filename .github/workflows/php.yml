@@ -16,6 +16,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: workaround for baldinof
+      run: |
+        mv config/packages/baldinof_road_runner.yaml config/packages/baldinof_road_runner.yaml.bak
+        composer require baldinof/roadrunner-bundle
+        mv config/packages/baldinof_road_runner.yaml.bak config/packages/baldinof_road_runner.yaml
+        php bin/console cache:clear
+
     - name: Install dependencies
       run: |
         echo ===== Checking version of composer =====
