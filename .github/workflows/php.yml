@@ -16,10 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    #- name: Install dependencies
-    #  run: |
-    #    composer update
-    #    composer install --prefer-dist --no-progress
+    - name: Install dependencies
+      run: |
+        composer update
+        composer install --prefer-dist --no-progress
 
     - name: checking directory
       run: |
