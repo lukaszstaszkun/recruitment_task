@@ -31,10 +31,10 @@ jobs:
         composer update
         echo ===== checking git status =====
         git status
-        git checkout -b usr-github_composer.lock
+        git checkout -b usr-github_composerlock
         git add composer.lock
         git commit -m "Updating composer lock"
-        git push --set-upstream origin usr-github_composer.locl
+        git push --set-upstream origin usr-github_composerlock
 
     #- name: Run PHPStan
     #  run: |
