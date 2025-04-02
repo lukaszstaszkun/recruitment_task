@@ -12,8 +12,6 @@ RUN curl -Ls https://github.com/roadrunner-server/roadrunner/releases/download/v
 
 WORKDIR /app
 
-COPY . .
-
 RUN composer install --optimize-autoloader
 
 EXPOSE 8080
