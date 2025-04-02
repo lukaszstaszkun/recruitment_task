@@ -18,6 +18,12 @@ jobs:
     #  image: ghcr.io/lukaszstaszkun/test:latest
     
     steps:
+    - name: checks
+      run: |
+        pwd
+        ls -la
+        whoami
+    
     - uses: actions/checkout@v4
 
     - name: Trust working directory
