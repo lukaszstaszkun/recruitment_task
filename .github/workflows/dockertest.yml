@@ -22,7 +22,7 @@ jobs:
           echo === checking pwd and ls ===
           pwd
           ls
-          compose --version
+          composer --version
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
@@ -43,4 +43,4 @@ jobs:
           echo === checking pwd and ls ===
           pwd
           ls
-          compose --version
+          composer --version
