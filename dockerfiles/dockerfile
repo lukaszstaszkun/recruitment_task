@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer update --optimize-autoloader
+RUN composer install --optimize-autoloader
 
 EXPOSE 8080
 
