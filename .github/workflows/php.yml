@@ -29,7 +29,12 @@ jobs:
     - name: Update dependencies
       run: |
         composer update
-        git diff
+        echo ===== checking git status =====
+        git status
+        git checkout -b usr-github_composer.lock
+        git add composer.lock
+        git commit -m "Updating composer lock"
+        git push --set-upstream origin usr-github_composer.locl
 
     #- name: Run PHPStan
     #  run: |
