@@ -6,21 +6,16 @@ on:
 
 # action.yml
 jobs:
-  login:
+  docker_setup:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Login to GitHub Container Registry
+      - name: GHCR Login
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-  docker_setup:
-    needs: [login]
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout repo
         uses: actions/checkout@v4
     
@@ -42,7 +37,7 @@ jobs:
     needs: [docker_setup]
     runs-on: ubuntu-latest
     container:
-      image: test:latest
+      image: ghcr.io/lukaszstaszkun/test:latest
     steps:
     - name: Run inside the container
       run: php -v   # cokolwiek chcesz
