@@ -9,7 +9,7 @@ permissions:
 
 # action.yml
 jobs:
-  build:
+  compose:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -22,13 +22,9 @@ jobs:
           echo === checking pwd and ls ===
           pwd
           ls
+          compose --version
 
-
-  compose:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Set up Docker Compose
+      - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
 
       #- name: Build Docker image from Dockerfile
@@ -47,3 +43,4 @@ jobs:
           echo === checking pwd and ls ===
           pwd
           ls
+          compose --version
