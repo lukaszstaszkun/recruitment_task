@@ -26,32 +26,21 @@ jobs:
     - name: Set Symfony environment
       run: echo "APP_ENV=dev" >> $GITHUB_ENV
     
-    - name: Update dependencies
+    - name: Run PHPStan
       run: |
-        composer update
-        echo ===== checking git status =====
+        echo ===== composer update =====
+        composer stan
 
-    - name: Upload composer.lock as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: composer-lock
-        path: composer.lock
+    - name: Check coding style
+      run: |
+        echo ===== composer update =====
+        composer cs
 
-    #- name: Run PHPStan
-    #  run: |
-    #    echo ===== composer update =====
-    #    composer stan
+    - name: Fix coding style
+      run: |
+        echo ===== composer update =====
+        composer cs-fix
 
-    #- name: Check coding style
-    #  run: |
-    #    echo ===== composer update =====
-    #    composer cs
-
-    #- name: Fix coding style
-    #  run: |
-    #    echo ===== composer update =====
-    #    composer cs-fix
-
-    #- name: Run tests
-    #  run: |
-    #    composer test
+    - name: Run tests
+      run: |
+        composer test
