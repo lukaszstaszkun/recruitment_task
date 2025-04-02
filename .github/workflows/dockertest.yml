@@ -1,0 +1,41 @@
+name: Docker Test
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+# action.yml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Checking before docker
+        run: |
+          echo === checking whoami ===
+          whoami
+          echo === checking pwd and ls ===
+          pwd
+          ls
+
+      - name: Build Docker image from Dockerfile
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .DOCKERS/dockerfile
+          tags: my-app:latest
+          push: false
+            ls
+
+      - name: Checking if docker is running
+        run: |
+          echo === checking whoami ===
+          whoami
+          echo === checking pwd and ls ===
+          pwd
+          ls
