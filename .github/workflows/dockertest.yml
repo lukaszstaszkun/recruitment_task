@@ -27,7 +27,7 @@ jobs:
       - name: Docker run
         run: |
            docker build -t test:latest DOCKERS/.
-           docker run -v $(pwd)/.:/worskapce -p 127.0.0.1:8000:8000 -it test:latest
+           docker run -v $(pwd)/.:/workspace -p 127.0.0.1:8000:8000 -it test:latest
 
       #- name: Build Docker image from Dockerfile
       #  uses: docker/build-push-action@v5
