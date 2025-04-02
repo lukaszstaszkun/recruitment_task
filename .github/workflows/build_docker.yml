@@ -63,6 +63,7 @@ jobs:
       - name: Docker push
         run: |
            docker build \
+             -f dockerfiles/dockerfile \
              -t ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }} \
              -t ghcr.io/lukaszstaszkun/docker_container:latest \
              dockerfiles/.
