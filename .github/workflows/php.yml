@@ -20,6 +20,8 @@ jobs:
       run: |
         echo ===== Checking version of composer =====
         composer --version
+        echo ===== Composer Show =====
+        composer show baldinof/roadrunner-bundle
         echo ===== Workaround for baldinof =====
         mv config/packages/baldinof_road_runner.yaml config/packages/baldinof_road_runner.yaml.bak
         composer require baldinof/roadrunner-bundle
