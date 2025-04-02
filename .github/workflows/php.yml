@@ -16,10 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: workaround for baldinof
+    - name: docker setup
       run: |
         echo ===== Check docker version =====
-        docker --version
+        docker pull compose-latest
 
     - name: Install dependencies
       run: |
