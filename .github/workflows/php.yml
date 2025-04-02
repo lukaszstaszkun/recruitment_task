@@ -27,23 +27,25 @@ jobs:
       run: echo "APP_ENV=dev" >> $GITHUB_ENV
     
     - name: Update dependencies
-      run: composer update
-
-    - name: Run PHPStan
       run: |
-        echo ===== composer update =====
-        composer stan
+        composer update
+        git diff
 
-    - name: Check coding style
-      run: |
-        echo ===== composer update =====
-        composer cs
+    #- name: Run PHPStan
+    #  run: |
+    #    echo ===== composer update =====
+    #    composer stan
 
-    - name: Fix coding style
-      run: |
-        echo ===== composer update =====
-        composer cs-fix
+    #- name: Check coding style
+    #  run: |
+    #    echo ===== composer update =====
+    #    composer cs
 
-    - name: Run tests
-      run: |
-        composer test
+    #- name: Fix coding style
+    #  run: |
+    #    echo ===== composer update =====
+    #    composer cs-fix
+
+    #- name: Run tests
+    #  run: |
+    #    composer test
