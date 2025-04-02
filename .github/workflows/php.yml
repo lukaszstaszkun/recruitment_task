@@ -7,12 +7,14 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    container:
+      image: ghcr.io/lukaszstaszkun/test:latest
+    
     steps:
     - uses: actions/checkout@v4
 
