@@ -30,6 +30,8 @@ jobs:
       run: |
         composer update
         echo ===== checking git status =====
+        git config --global user.email "github@github.com"
+        git config --global user.name "GitHub Runner"
         git status
         git checkout -b usr-github_composerlock
         git add composer.lock
