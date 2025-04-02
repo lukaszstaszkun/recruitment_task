@@ -27,7 +27,7 @@ jobs:
 
       - name: Docker run
         run: |
-           docker build -t test:latest DOCKERS/.
+           docker build -t ghcr.io/test:latest DOCKERS/.
            docker push ghcr.io/lukaszstaszkun/test:latest
 
   run_in_docker:
