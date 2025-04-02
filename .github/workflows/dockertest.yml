@@ -23,14 +23,22 @@ jobs:
           pwd
           ls
 
-      - name: Build Docker image from Dockerfile
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: .DOCKERS/dockerfile
-          tags: my-app:latest
-          push: false
-            ls
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+
+      #- name: Build Docker image from Dockerfile
+      #  uses: docker/build-push-action@v5
+      #  with:
+      #    context: .
+      #    file: .DOCKERS/dockerfile
+      #    tags: my-app:latest
+      #    push: false
+      #      ls
 
       - name: Checking if docker is running
         run: |
