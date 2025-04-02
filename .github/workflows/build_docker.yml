@@ -65,8 +65,7 @@ jobs:
            docker build \
              -f dockerfiles/dockerfile \
              -t ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }} \
-             -t ghcr.io/lukaszstaszkun/docker_container:latest \
-             dockerfiles/.
+             -t ghcr.io/lukaszstaszkun/docker_container:latest .
            docker push ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }}
            docker push ghcr.io/lukaszstaszkun/docker_container:latest
 
