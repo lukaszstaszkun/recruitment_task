@@ -1,4 +1,4 @@
-name: PHP Composer
+name: Composer Checks
 
 on:
   workflow_dispatch:
@@ -10,39 +10,31 @@ permissions:
   packages: read
 
 jobs:
-  build:
+  docker_check:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/lukaszstaszkun/docker_container:latest
     #container:
     #  image: ghcr.io/lukaszstaszkun/test:latest
     
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Run PHPStan
       run: |
         echo ===== composer update =====
-        composer update
-        echo ===== composer install =====
-        composer install --prefer-dist --no-progress
+        composer stan
 
-    - name: checking directory
+    - name: Check coding style
       run: |
-        pwd
-        ls -la
-
-    - name: test composer
-      run: composer test
-
-    - name: static code analysis
-      run: composer stan
-
-    - name: formatting
-      run: |
+        echo ===== composer update =====
         composer cs
+
+    - name: Fix coding style
+      run: |
+        echo ===== composer update =====
         composer cs-fix
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Run tests
+      run: |
+        composer test
