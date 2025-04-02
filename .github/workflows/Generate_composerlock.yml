@@ -1,0 +1,27 @@
+name: Composer Lock Artifact
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  composer_generate:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Run composer update
+        run: composer update --optimize-autoloader
+
+      - name: Upload composer.lock as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: composer-lock
+          path: composer.lock
