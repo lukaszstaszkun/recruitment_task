@@ -20,6 +20,11 @@ jobs:
       run: |
         echo ===== Checking version of composer =====
         composer --version
+        echo ===== Workaround for baldinof =====
+        mv config/packages/baldinof_road_runner.yaml config/packages/baldinof_road_runner.yaml.bak
+        composer require baldinof/roadrunner-bundle
+        mv config/packages/baldinof_road_runner.yaml.bak config/packages/baldinof_road_runner.yaml
+        php bin/console cache:clear        
         echo ===== composer update =====
         composer update
         echo ===== composer install =====
