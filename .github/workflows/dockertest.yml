@@ -4,13 +4,21 @@ on:
   push:
     branches: [ "main" ]
 
-permissions:
-  contents: read
-
 # action.yml
 jobs:
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+
   docker_setup:
-    if: always()
+    needs: [login]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
