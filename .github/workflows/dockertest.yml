@@ -29,6 +29,14 @@ jobs:
            docker build -t test:latest DOCKERS/.
            docker run -v $(pwd):/workspace -p 127.0.0.1:8000:8000 -w /workspace test:latest
 
+  run_in_docker:
+    runs-on: ubuntu-latest
+    container:
+      image: test:latest
+    steps:
+    - name: Run inside the container
+      run: php -v   # cokolwiek chcesz
+
       #- name: Build Docker image from Dockerfile
       #  uses: docker/build-push-action@v5
       #  with:
@@ -38,11 +46,11 @@ jobs:
       #    push: false
       #      ls
 
-      - name: Checking if docker is running
-        run: |
-          echo === checking whoami ===
-          whoami
-          echo === checking pwd and ls ===
-          pwd
-          ls
-          composer --version
+    - name: Checking if docker is running
+      run: |
+        echo === checking whoami ===
+        whoami
+        echo === checking pwd and ls ===
+        pwd
+        ls
+        composer --version
