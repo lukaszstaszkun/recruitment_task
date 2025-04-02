@@ -30,13 +30,12 @@ jobs:
       run: |
         composer update
         echo ===== checking git status =====
-        git config --global user.email "github@github.com"
-        git config --global user.name "GitHub Runner"
-        git status
-        git checkout -b usr-github_composerlock
-        git add composer.lock
-        git commit -m "Updating composer lock"
-        git push --set-upstream origin usr-github_composerlock
+
+    - name: Upload composer.lock as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: composer-lock
+        path: composer.lock
 
     #- name: Run PHPStan
     #  run: |
