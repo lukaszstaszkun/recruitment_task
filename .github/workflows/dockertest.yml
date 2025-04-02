@@ -9,7 +9,8 @@ permissions:
 
 # action.yml
 jobs:
-  compose:
+  docker_setup:
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -30,6 +31,7 @@ jobs:
            docker run -v $(pwd):/workspace -p 127.0.0.1:8000:8000 -w /workspace test:latest
 
   run_in_docker:
+    needs: [docker_setup]
     runs-on: ubuntu-latest
     container:
       image: test:latest
