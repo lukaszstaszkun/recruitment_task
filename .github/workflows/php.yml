@@ -26,8 +26,8 @@ jobs:
     #- name: Set Symfony environment
     #  run: echo "APP_ENV=dev" >> $GITHUB_ENV
     
-    - name: Install dependencies
-      run: composer install
+    #- name: Install dependencies
+    #  run: composer install
 
     - name: Run PHPStan
       run: |
