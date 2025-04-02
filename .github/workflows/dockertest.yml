@@ -1,10 +1,10 @@
-name: Docker Test
+name: Docker Preparation
 on:
   workflow_dispatch:
     inputs:
       package_version:
         type: string
-        description: Manually set the current version of the package. Follow the pattern of vX.Y.Z e.g. v1.0.1
+        description: Manually set the current version of the package. Follow the pattern of vX.Y.Z e.g. v1.0.1.
         required: false
   #push:
   #  branches: [ "main" ]
@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GHCR Login
+        #### Login into GitHub Container Registry ####
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -28,11 +29,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
+        #### Need to set fetch-depth to 0 to download all commits and tags ####
           fetch-depth: 0
           fetch-tags: true
     
-      - name: Tagging Repo
+      - name: New Version Extraction
         id: version
+        #### Extracting the newest tag by sorting tags by in descending order ####
+        #### checking whether they follow pattern of vX.Y.Z                   ####
+        #### and taking only one tag from top                                 ####
         run: |
           echo === Tagging ===
           latest_tag=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
@@ -60,29 +65,11 @@ jobs:
            docker build -t ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }} DOCKERS/.
            docker push ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }}
 
-  run_in_docker:
-    needs: [docker_setup]
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/lukaszstaszkun/test:latest
-    steps:
-    - name: Run inside the container
-      run: php -v   # cokolwiek chcesz
-
-      #- name: Build Docker image from Dockerfile
-      #  uses: docker/build-push-action@v5
-      #  with:
-      #    context: .
-      #    file: .DOCKERS/dockerfile
-      #    tags: my-app:latest
-      #    push: false
-      #      ls
-
-    - name: Checking if docker is running
-      run: |
-        echo === checking whoami ===
-        whoami
-        echo === checking pwd and ls ===
-        pwd
-        ls
-        composer --version
+  #run_in_docker:
+  #  needs: [docker_setup]
+  #  runs-on: ubuntu-latest
+  #  container:
+  #    image: ghcr.io/lukaszstaszkun/test:latest
+  #  steps:
+  #  - name: Run inside the container
+  #    run: php -v   # cokolwiek chcesz
