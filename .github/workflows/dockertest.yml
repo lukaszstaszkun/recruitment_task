@@ -23,19 +23,34 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
     
-      - name: Checking before docker
+      - name: Tagging Repo
+        id: version
         run: |
-          echo === checking whoami ===
-          whoami
-          echo === checking pwd and ls ===
-          pwd
-          ls
-          composer --version
+          echo === Tagging ===
+          latest_tag=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          if [ -z "$latest" ]; then
+            new_version="v1.0.0"
+          else
+            IFS='.' read -r major minor patch <<< "${latest_tag#v}"
+            patch=$((patch + 1))
+            new_version="v$major.$minor.$patch"
+          fi
 
-      - name: Docker run
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "New version: $new_version"
+
+      - name: Tag commit with version
         run: |
-           docker build -t ghcr.io/lukaszstaszkun/test:latest DOCKERS/.
-           docker push ghcr.io/lukaszstaszkun/test:latest
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git tag ${{ steps.version.outputs.new_version }}
+          git push origin ${{ steps.version.outputs.new_version }}
+
+      - name: Docker push
+        run: |
+           docker build -t ghcr.io/lukaszstaszkun/docker_container:${{ steps.version.outputs.new_version }} DOCKERS/.
+           docker push ghcr.io/lukaszstaszkun/docker_container:${{ steps.version.outputs.new_version }}
 
   run_in_docker:
     needs: [docker_setup]
