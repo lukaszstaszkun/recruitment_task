@@ -24,6 +24,7 @@ jobs:
     - name: Run PHPStan
       run: |
         echo ===== composer PHPstan =====
+        composer install --dev --no-interaction --prefer-dist
         composer run stan
 
   Run_Coding_Style:
@@ -40,6 +41,7 @@ jobs:
     - name: Check coding style
       run: |
         echo ===== composer Coding Style =====
+        composer install --dev --no-interaction --prefer-dist
         composer run cs
 
   Fix_Coding_Style:
@@ -56,6 +58,7 @@ jobs:
     - name: Fix coding style
       run: |
         echo ===== composer Fix Coding Style =====
+        composer install --dev --no-interaction --prefer-dist
         composer run cs-fix
 
   Run_Tests:
@@ -71,4 +74,5 @@ jobs:
 
     - name: Run tests
       run: |
+        composer install --dev --no-interaction --prefer-dist
         composer run test
