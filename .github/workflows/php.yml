@@ -18,12 +18,9 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    #- name: Trust working directory
-    #  run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-    
-    #- name: Set Symfony environment
-    #  run: echo "APP_ENV=dev" >> $GITHUB_ENV
-    
+    - name: Trust working directory
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
     - name: Run PHPStan
       run: |
         echo ===== composer PHPstan =====
@@ -53,6 +50,9 @@ jobs:
 
     - uses: actions/checkout@v4
 
+    - name: Trust working directory
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
     - name: Fix coding style
       run: |
         echo ===== composer Fix Coding Style =====
@@ -65,6 +65,9 @@ jobs:
     steps:
 
     - uses: actions/checkout@v4
+
+    - name: Trust working directory
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
     - name: Run tests
       run: |
