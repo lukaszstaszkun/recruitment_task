@@ -10,7 +10,10 @@ on:
         required: false
 
 concurrency:
-  group: 1
+  ### Added concurrency to make sure that two workflows        ###
+  ### do not start at the same time, as this could cause       ###
+  ### unpredictable behaviour regarding tagging repo/container ###
+  group: '1'
   cancel-in-progress: false
 
 permissions:
