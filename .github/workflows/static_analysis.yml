@@ -7,7 +7,7 @@ on:
         type: string
         description: Choose version of Docker to be used (e.g. v1.0.1)
         required: true
-        default: latest
+        default: 'latest'
   push:
     branches: [ "main" ]
 
