@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --dev --optimize-autoloader
+composer install --dev --no-interaction --prefer-dist
 
 EXPOSE 8080
 
