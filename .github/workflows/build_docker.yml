@@ -6,8 +6,6 @@ on:
         type: string
         description: Manually set the current version of the package. Follow the pattern of vX.Y.Z e.g. v1.0.1.
         required: false
-  #push:
-  #  branches: [ "main" ]
 
 permissions:
   contents: write
@@ -35,9 +33,9 @@ jobs:
     
       - name: New Version Extraction
         id: version
-        #### Extracting the newest tag by sorting tags by in descending order ####
-        #### checking whether they follow pattern of vX.Y.Z                   ####
-        #### and taking only one tag from top                                 ####
+        #### Extracting the newest tag by sorting tags in descending order ####
+        #### filtering tags that follow pattern of vX.Y.Z                  ####
+        #### and taking only one tag from top                              ####
         run: |
           echo === Tagging ===
           latest_tag=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
@@ -68,12 +66,3 @@ jobs:
              -t ghcr.io/lukaszstaszkun/docker_container:latest .
            docker push ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }}
            docker push ghcr.io/lukaszstaszkun/docker_container:latest
-
-  #run_in_docker:
-  #  needs: [docker_setup]
-  #  runs-on: ubuntu-latest
-  #  container:
-  #    image: ghcr.io/lukaszstaszkun/test:latest
-  #  steps:
-  #  - name: Run inside the container
-  #    run: php -v   # cokolwiek chcesz
