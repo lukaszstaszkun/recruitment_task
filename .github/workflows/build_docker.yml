@@ -1,0 +1,91 @@
+name: Docker Preparation
+on:
+  workflow_dispatch:
+    inputs:
+      package_version:
+        type: string
+        description: Manually set the current version of the package. 
+                     Follow the pattern of vX.Y.Z e.g. v1.0.1. 
+                     Will automatically increment current ver if empty.
+        required: false
+
+concurrency:
+  ### Added concurrency to make sure that two workflows        ###
+  ### do not start at the same time, as this could cause       ###
+  ### unpredictable behaviour regarding tagging repo/container ###
+  group: '1'
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+
+# action.yml
+jobs:
+  docker_setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verification of user input
+        #### Checking whether supplied version is valid ####
+        run: |
+          if [ -z "${{ github.event.inputs.package_version }}" ]; then
+            echo === Version Valid: Empty ===
+            exit 0
+          elif [[ "${{ github.event.inputs.package_version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo === Version Valid: ${{ github.event.inputs.package_version }} ===
+          else
+            echo === Version Invalid: ${{ github.event.inputs.package_version }} ===
+            echo === Exiting ===
+            exit 1
+          fi
+      
+      - name: GHCR Login
+        #### Login into GitHub Container Registry ####
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+        #### Need to set fetch-depth to 0 to download all commits and tags ####
+          fetch-depth: 0
+          fetch-tags: true
+    
+      - name: New Version Extraction
+        id: version
+        #### Extracting the newest tag by sorting tags in descending order ####
+        #### filtering tags that follow pattern of vX.Y.Z                  ####
+        #### and taking only one tag from top                              ####
+        run: |
+          echo === Tagging ===
+          latest_tag=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            new_version="v1.0.0"
+          else
+            IFS='.' read -r major minor patch <<< "${latest_tag#v}"
+            patch=$((patch + 1))
+            new_version="v$major.$minor.$patch"
+          fi
+
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "New version: $new_version"
+
+      - name: Tag commit with version
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git tag ${{ github.event.inputs.package_version || steps.version.outputs.new_version }}
+          git push origin ${{ github.event.inputs.package_version || steps.version.outputs.new_version }}
+
+      - name: Docker push
+        run: |
+           docker build \
+             -f dockerfiles/dockerfile \
+             -t ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }} \
+             -t ghcr.io/lukaszstaszkun/docker_container:latest .
+           docker push ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || steps.version.outputs.new_version }}
+           docker push ghcr.io/lukaszstaszkun/docker_container:latest
