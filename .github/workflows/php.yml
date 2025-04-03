@@ -14,8 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/lukaszstaszkun/docker_container:latest
-    #container:
-    #  image: ghcr.io/lukaszstaszkun/test:latest
     
     steps:
     - name: checks
