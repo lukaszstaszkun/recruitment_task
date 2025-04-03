@@ -18,7 +18,7 @@ jobs:
   Run_PHPStan:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || latest }}
+      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || 'latest' }}
     steps:
 
     - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
   Run_Coding_Style:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || latest }}
+      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || 'latest' }}
     steps:
 
     - uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
   Fix_Coding_Style:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || latest }}
+      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || 'latest' }}
     steps:
 
     - uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
   Run_Tests:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || latest }}
+      image: ghcr.io/lukaszstaszkun/docker_container:${{ github.event.inputs.package_version || 'latest' }}
     steps:
 
     - uses: actions/checkout@v4
