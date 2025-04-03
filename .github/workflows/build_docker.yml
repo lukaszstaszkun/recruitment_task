@@ -10,7 +10,7 @@ on:
         required: false
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: 1
   cancel-in-progress: false
 
 permissions:
