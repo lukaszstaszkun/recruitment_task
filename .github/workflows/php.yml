@@ -32,19 +32,19 @@ jobs:
     
     - name: Run PHPStan
       run: |
-        echo ===== composer update =====
-        composer stan
+        echo ===== composer PHPstan =====
+        composer run stan
 
     - name: Check coding style
       run: |
-        echo ===== composer update =====
-        composer cs
+        echo ===== composer Coding Style =====
+        composer run cs
 
     - name: Fix coding style
       run: |
-        echo ===== composer update =====
-        composer cs-fix
+        echo ===== composer Fix Coding Style =====
+        composer run cs-fix
 
     - name: Run tests
       run: |
-        composer test
+        composer run test
