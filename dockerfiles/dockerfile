@@ -12,12 +12,4 @@ RUN curl -Ls https://github.com/roadrunner-server/roadrunner/releases/download/v
 
 WORKDIR /app
 
-#COPY . .
-
 ENV PATH="/app/vendor/bin:$PATH"
-
-#RUN composer install --dev --no-interaction --prefer-dist
-
-#EXPOSE 8080
-
-#CMD ["rr", "serve", "-c", ".rr.yaml"]
