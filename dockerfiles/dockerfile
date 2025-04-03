@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY . .
 
-composer install --dev --no-interaction --prefer-dist
+COMPOSER install --dev --no-interaction --prefer-dist
 
 EXPOSE 8080
 
