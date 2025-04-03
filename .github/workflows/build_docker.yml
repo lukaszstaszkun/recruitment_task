@@ -4,7 +4,9 @@ on:
     inputs:
       package_version:
         type: string
-        description: Manually set the current version of the package. Follow the pattern of vX.Y.Z e.g. v1.0.1.
+        description: Manually set the current version of the package. 
+                     Follow the pattern of vX.Y.Z e.g. v1.0.1. 
+                     Will automatically increment current ver if empty.
         required: false
 
 permissions:
@@ -16,6 +18,20 @@ jobs:
   docker_setup:
     runs-on: ubuntu-latest
     steps:
+      - name: Verification of user input
+        #### Checking whether supplied version is valid ####
+        run: |
+          if [ -z "${{ github.event.inputs.package_version }} ]; then
+            echo === Version Valid: Empty ===
+            exit 0
+          elif [[ "${{ github.event.inputs.package_version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo === Version Valid: ${{ github.event.inputs.package_version }} ===
+          else
+            echo === Version Invalid: ${{ github.event.inputs.package_version }} ===
+            echo === Exiting ===
+            exit 1
+          fi
+      
       - name: GHCR Login
         #### Login into GitHub Container Registry ####
         uses: docker/login-action@v3
