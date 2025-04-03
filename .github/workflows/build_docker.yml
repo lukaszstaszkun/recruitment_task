@@ -9,6 +9,10 @@ on:
                      Will automatically increment current ver if empty.
         required: false
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
   packages: write
