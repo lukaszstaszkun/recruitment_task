@@ -1,4 +1,4 @@
-name: Composer Checks
+name: Static Analysis
 
 on:
   workflow_dispatch:
@@ -18,13 +18,14 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - name: Trust working directory
-      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: Trust working directory and install composer
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        composer install --dev --no-interaction --prefer-dist
 
     - name: Run PHPStan
       run: |
         echo ===== composer PHPstan =====
-        composer install --dev --no-interaction --prefer-dist
         composer run stan
 
   Run_Coding_Style:
@@ -35,13 +36,14 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - name: Trust working directory
-      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: Trust working directory and install composer
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        composer install --dev --no-interaction --prefer-dist
 
     - name: Check coding style
       run: |
         echo ===== composer Coding Style =====
-        composer install --dev --no-interaction --prefer-dist
         composer run cs
 
   Fix_Coding_Style:
@@ -52,13 +54,14 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - name: Trust working directory
-      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: Trust working directory and install composer
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        composer install --dev --no-interaction --prefer-dist
 
     - name: Fix coding style
       run: |
         echo ===== composer Fix Coding Style =====
-        composer install --dev --no-interaction --prefer-dist
         composer run cs-fix
 
   Run_Tests:
@@ -69,10 +72,11 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - name: Trust working directory
-      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    - name: Trust working directory and install composer
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        composer install --dev --no-interaction --prefer-dist
 
     - name: Run tests
       run: |
-        composer install --dev --no-interaction --prefer-dist
         composer run test
